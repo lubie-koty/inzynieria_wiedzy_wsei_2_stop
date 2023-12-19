@@ -1,5 +1,4 @@
-import matplotlib as plt
-import numpy as np
+import matplotlib.pyplot as plt
 import pandas as pd
 import tensorflow as tf
 
@@ -62,4 +61,3 @@ if __name__ == '__main__':
     plt.ylabel('Cena zamkniecia')
     plt.legend(['Wartosci rzeczywiste', 'Prognozy sieci neuronowej'])
     plt.show()
-

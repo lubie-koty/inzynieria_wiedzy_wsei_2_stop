@@ -1,11 +1,9 @@
 from collections import namedtuple
 from numbers import Number
-from typing import Any
 
 import numpy as np
-import pandas as pd
 
-from sklearn import preprocessing
+from boston_data import prepare_boston_data
 
 ModelTuple = namedtuple(
     'ModelTuple',
@@ -58,24 +56,11 @@ def predict(X_test, model: ModelTuple):
 
 
 if __name__ == '__main__':
-    DATA_URL = 'http://lib.stat.cmu.edu/datasets/boston'
-    NUM_TEST = 10
-
-    raw_df = pd.read_csv(DATA_URL, sep='\s+', skiprows=22, header=None)
-    data = np.hstack([raw_df.to_numpy()[::2, :], raw_df.to_numpy()[1::2, :2]])
-    target = raw_df.to_numpy()[1::2, 2]
-
-    scaler = preprocessing.StandardScaler()
-
-    X_train = scaler.fit_transform(data[:-NUM_TEST, :])
-    y_train = target[:-NUM_TEST].reshape(-1, 1)
-
-    X_test = scaler.transform(data[-NUM_TEST:, :])
-    y_test = target[-NUM_TEST:]
-
     n_hidden = 20
     learning_rate = 0.1
     n_iter = 2000
+
+    X_train, X_test, y_train, y_test = prepare_boston_data()
 
     model = train(X_train, y_train, n_hidden, learning_rate, n_iter)
     predictions = predict(X_test, model)
